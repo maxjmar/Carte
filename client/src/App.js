@@ -6,9 +6,19 @@ import NavBar from "./cmpnts/NavBar";
 import Home from "./cmpnts/Home";
 import Cat from "./cmpnts/Cat";
 import CardForm from "./cmpnts/CardForm";
+import Login from "./cmpnts/Login";
 
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch("/authorized_user").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
 
   return (
     <div className="App">
@@ -17,18 +27,21 @@ function App() {
           <Heading/>
         </div>
         <div className="NavBar">
-          <NavBar/>
+          <NavBar user={user} setUser={setUser}/>
         </div>
         <Switch>
           <Route exact path="/">
             <Home/>
           </Route>
           <Route exact path="/categories">
-          <Cat/>
+            <Cat/>
           </Route>
           <Route exact path="/add-card">
-          <CardForm/>
+            <CardForm/>
           </Route>
+          <Route path="/login">
+              <Login setUser={setUser} />
+            </Route>
         </Switch>
       </div>
     </div>

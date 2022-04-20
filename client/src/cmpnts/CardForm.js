@@ -8,6 +8,7 @@ function CardForm() {
         <input type="file" accept="image/*" name="file"></input>
         <input type='text' name='Owner' placeholder="Enter Owner's Name"/>
         <textarea type='text' name='notes' placeholder="Notes"/>
+        <input type='submit' value='Submit'/>
         </form>
       </div>
     );

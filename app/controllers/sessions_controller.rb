@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
-    skip_before_action :authorized, only: [:create, :destroy]
+    skip_before_action :authorized_user, only: [:login, :logout]
 
-    def create
+    def login
         user = User.find_by(username: params[:username])
         if user&.authenticate(params[:password_digest])
             session[:user_id] = user.id
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
         end
     end
 
-    def destroy
+    def logout
         session.delete :user_id
         render json: {}, status: :ok
     end

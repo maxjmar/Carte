@@ -1,19 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
-import { useState, useEffect } from "react";
+import React,{useState, useEffect} from "react";
+import {Switch, Route,} from "react-router-dom";
+import Heading from "./cmpnts/Heading";
+import NavBar from "./cmpnts/NavBar";
+import Home from "./cmpnts/Home";
+import Cat from "./cmpnts/Cat";
+import CardForm from "./cmpnts/CardForm";
+
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
-  }, []);
 
   return (
     <div className="App">
-      <h1>Page Count: {count}</h1>
+      <div className="main">
+        <div className="Heading">
+          <Heading/>
+        </div>
+        <div className="NavBar">
+          <NavBar/>
+        </div>
+        <Switch>
+          <Route exact path="/">
+            <Home/>
+          </Route>
+          <Route exact path="/categories">
+          <Cat/>
+          </Route>
+          <Route exact path="/add-card">
+          <CardForm/>
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 }

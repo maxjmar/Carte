@@ -3,13 +3,25 @@ import MineForm from "./MineForm"
 import MineView from "./MineView"
 
 function Mine({authUser}) {
+  
   const [myCards, setMyCards] = useState([])
+  console.log(myCards)
 
   useEffect(()=>{
     fetch('/categories/1/cards')
     .then(r=>r.json())
-    .then(setMyCards)
+    .then(
+      // setMyCards
+      function (handleMyCards){
+        if (handleMyCards.errors){
+          console.log('notLoggedIn')
+        } else {
+          setMyCards(handleMyCards)
+        }
+      }
+      )
   }, [])
+  if (authUser){
     return (
       <div className="Cat">
         <div>My Cards</div>
@@ -22,6 +34,10 @@ function Mine({authUser}) {
             </div>
         </div>
       </div>
+    );
+  } else
+    return (
+      <div>Test</div>
     );
   }
   

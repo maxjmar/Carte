@@ -8,7 +8,15 @@ function Recent({authUser}) {
   useEffect(()=>{
     fetch('/categories/2/cards')
     .then(r=>r.json())
-    .then(setReCards)
+    .then(
+      function (handleReCards){
+        if (handleReCards.errors){
+          console.log('notLoggedIn')
+        } else {
+          setReCards(handleReCards)
+        }
+    }
+    )
   }, [])
     return (
       <div className="Cat">

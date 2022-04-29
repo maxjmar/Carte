@@ -8,7 +8,14 @@ function Current({authUser}) {
   useEffect(()=>{
     fetch('/categories/3/cards')
     .then(r=>r.json())
-    .then(setCuCards)
+    .then(
+    function (handleCuCards){
+      if (handleCuCards.errors){
+        console.log('notLoggedIn')
+      } else {
+        setCuCards(handleCuCards)
+      }
+    })
   }, [])
     return (
       <div className="Cat">

@@ -1,34 +1,50 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
+// import Login from "./Login"
 
-function NavBar({ user, setUser }) {
-  function handleLogoutClick() {
-    fetch("/logout", { method: "DELETE" }).then((r) => {
-      if (r.ok) {
-        setUser(null);
-      }
-    });
+function NavBar({ authUser, setAuthUser }) {
+  function logout(e) {
+    e.preventDefault()
+
+    fetch("/logout", {
+    method: 'DELETE'})
+    .then(r=>r.json())
+    .then(setAuthUser)
+    // document.location.reload(true)
+    // window.localStorage.clear()
   }
     return (
       <div className="NavBar">
-        <div>
-          <NavLink className="navLinks" to="/">
-            Home
-          </NavLink>
-          <NavLink className="navLinks" to="/categories">
-            My Cards
-          </NavLink>
-          <NavLink className="navLinks" to="/add-card">
-            Add Card
-          </NavLink>
+        <div className="navLinks">
+          <div className="links">
+            <NavLink  to="/login">
+              login
+            </NavLink>
+          </div>
+          <div className="links">
+            <NavLink  to="/mine">
+              My Cards
+            </NavLink>
+          </div>
+          <div className="links">
+            <NavLink  to="/current">
+              Current Coworkers
+            </NavLink>
+          </div>
+          <div className="links">
+            <NavLink  to="/recent">
+              Recently Met
+            </NavLink>
+          </div>
+          <div className="links">
+            {authUser ? (
+              <button onClick={(e) => logout(e)}>Logout</button>
+            ) : (
+                <NavLink to="/login">Login</NavLink>
+            )}
+          </div>
         </div>
-        <div>
-        {user ? (
-          <button onClick={handleLogoutClick}>Logout</button>
-        ) : (
-            <NavLink to="/login">Login</NavLink>
-        )}
-      </div>
+        
       </div>
     );
   }

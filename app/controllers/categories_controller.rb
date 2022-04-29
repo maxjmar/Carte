@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
     end
 
     def show
-        cards = category.find(params[:id])
+        category = Category.find(params[:id])
         render json: category, status: :ok
     end
 end

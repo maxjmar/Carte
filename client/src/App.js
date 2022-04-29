@@ -4,21 +4,30 @@ import {Switch, Route,} from "react-router-dom";
 import Heading from "./cmpnts/Heading";
 import NavBar from "./cmpnts/NavBar";
 import Home from "./cmpnts/Home";
-import Cat from "./cmpnts/Cat";
-import CardForm from "./cmpnts/CardForm";
+import Current from "./cmpnts/Current";
+import Recent from "./cmpnts/Recent";
 import Login from "./cmpnts/Login";
+import Mine from "./cmpnts/Mine"
 
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [authUser, setAuthUser] = useState([]);
 
-  useEffect(() => {
-    fetch("/authorized_user").then((r) => {
-      if (r.ok) {
-        r.json().then((user) => setUser(user));
-      }
-    });
-  }, []);
+  useEffect(()=>{
+    fetch("/me")
+    .then(r => r.json())
+    .then(setAuthUser)
+}, [])
+
+  // function logout(e) {
+  //   e.preventDefault()
+
+  //   fetch("/logout", {
+  //   method: 'DELETE'})
+  //   .then(r=>r.json())
+  //   .then(setAuthUser)
+  //   document.location.reload(true)
+  // }
 
   return (
     <div className="App">
@@ -27,21 +36,24 @@ function App() {
           <Heading/>
         </div>
         <div className="NavBar">
-          <NavBar user={user} setUser={setUser}/>
+          <NavBar authUser={authUser} setUser={setAuthUser}/>
         </div>
         <Switch>
           <Route exact path="/">
-            <Home/>
+            <Home authUser={authUser} setUser={setAuthUser}/>
           </Route>
-          <Route exact path="/categories">
-            <Cat/>
+          <Route exact path="/mine">
+            <Mine authUser={authUser} setUser={setAuthUser}/>
           </Route>
-          <Route exact path="/add-card">
-            <CardForm/>
+          <Route exact path="/current">
+            <Current authUser={authUser} setUser={setAuthUser}/>
+          </Route>
+          <Route exact path="/recent">
+            <Recent authUser={authUser} setUser={setAuthUser}/>
           </Route>
           <Route path="/login">
-              <Login setUser={setUser} />
-            </Route>
+              <Login authUser={authUser} setUser={setAuthUser}/>
+          </Route>
         </Switch>
       </div>
     </div>

@@ -7,4 +7,8 @@ class Card < ApplicationRecord
     validates :owner, presence: true, uniqueness: true 
     validates :notes, presence: true
 
+    def image_url
+        Rails.application.routes.url_helpers.url_for(image) if image.attached?
+      end
+
 end
